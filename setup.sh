@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Author: joepie91 (http://joepie91.cryto.net/)
+# Thanks to MK_FG for helping to fix the exit issue.
+
 echo "Enter the hostname of the server you want to set up:"
 read HOST
 ssh -t -T "root@$HOST" 2>/dev/null <<'ENDSSH'
