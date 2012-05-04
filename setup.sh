@@ -64,7 +64,7 @@ su tahoe
 OLDTIME="$(cat ~/tahoe_setup_time)"
 rm ~/tahoe_setup_time
 
-if [ "$(stat --format=%Y ~/.tahoe/tahoe.cfg)" == $OLDTIME ]; then echo "[X] You did not save the config file, cancellation assumed and installation aborted."; exit 1; exit 1; fi
+if [ "$(stat --format=%Y ~/.tahoe/tahoe.cfg)" == $OLDTIME ]; then echo "[X] You did not save the config file, cancellation assumed and installation aborted."; exit; exit 1; fi
 
 echo "[+] Configuration done."
 
