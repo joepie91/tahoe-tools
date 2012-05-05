@@ -3,13 +3,22 @@
 # Author: joepie91 (http://joepie91.cryto.net/)
 # Thanks to MK_FG for helping to fix the exit issue.
 
-echo "Enter the hostname of the server you want to set up:"
+echo "[!] NOTE: This tool will make the following changes to the target machine:"
+echo "[*]   Create tahoe user"
+echo "[*]   Update your apt repository lists"
+echo "[*]   Install nano, build-essential, python, python-dev"
+echo "[*]   Download, unpack, and build Tahoe-LAFS"
+echo "[*]   Start Tahoe-LAFS"
+echo "[!] If you do not wish to continue, press ctrl+C now. Otherwise, press enter to continue."
+
+echo "[?] Enter the hostname of the server you want to set up:"
 read HOST
 ssh -t -T "root@$HOST" 2>/dev/null <<'ENDSSH'
 echo "[!] Your final chance to abort before installation starts..."
 echo "[!] Hit ctrl+C to abort, or wait 4 seconds for the installation to start."
 sleep 4s
 echo "[!] Installing dependencies..."
+apt-get update >/dev/null 2>/dev/null
 apt-get install -y nano build-essential python python-dev >/dev/null 2>/dev/null
 if [ $? -ne 0 ]; then echo "[X] Installing dependencies failed."; exit 1; fi
 echo "[+] Installed dependencies."
