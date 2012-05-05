@@ -10,7 +10,7 @@ echo "[!] Your final chance to abort before installation starts..."
 echo "[!] Hit ctrl+C to abort, or wait 4 seconds for the installation to start."
 sleep 4s
 echo "[!] Installing dependencies..."
-apt-get install -y build-essential python python-dev >/dev/null 2>/dev/null
+apt-get install -y nano build-essential python python-dev >/dev/null 2>/dev/null
 if [ $? -ne 0 ]; then echo "[X] Installing dependencies failed."; exit 1; fi
 echo "[+] Installed dependencies."
 
