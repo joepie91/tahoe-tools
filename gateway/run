@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /home/tahoe/gateway
+gunicorn -b 0.0.0.0:3719 -k gevent gateway_wsgi:app >/dev/null 2>/dev/null &
+echo $! > gateway.pid

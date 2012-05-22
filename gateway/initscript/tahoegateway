@@ -1,0 +1,74 @@
+#! /bin/bash
+### BEGIN INIT INFO
+# Provides:          Tahoe-LAFS Gateway
+### END INIT INFO
+
+#### SERVER SPECIFIC CONFIGURATION
+GATEWAY_PATH="/home/tahoe/gateway/run"
+PID_PATH="/home/tahoe/gateway/gateway.pid"
+RUN_AS=tahoe
+#### DO NOT CHANGE ANYTHING AFTER THIS LINE!
+
+set -e
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="Tahoe-LAFS Gateway"
+NAME=$0
+SCRIPTNAME=/etc/init.d/$NAME
+
+#
+#       Function that starts the daemon/service.
+#
+d_start()
+{
+	# Starting Tahoe-LAFS Gateway
+	if [ -f $PID_PATH ]; then
+		echo -n ", already running"
+	else
+		start-stop-daemon --start --quiet --pidfile $PID_PATH \
+		       --chuid $RUN_AS --exec /usr/bin/env -- $GATEWAY_PATH
+		chmod 400 $PID_PATH
+	fi
+}
+
+#
+#       Function that stops the daemon/service.
+#
+d_stop() {
+    # Killing the Tahoe-LAFS Gateway
+	start-stop-daemon --stop --quiet --pidfile $PID_PATH \
+		|| echo -n ", not running"
+	if [ -f $PID_PATH ]; then
+		rm $PID_PATH
+	fi
+}
+
+ACTION="$1"
+case "$ACTION" in
+    start)
+        echo -n "Starting $DESC: $NAME"
+        d_start
+        echo "."
+        ;;
+
+    stop)
+        echo -n "Stopping $DESC: $NAME"
+        d_stop
+        echo "."
+        ;;
+
+    restart|force-reload)
+        echo -n "Restarting $DESC: $NAME"
+        d_stop
+        sleep 1
+        d_start
+        echo "."
+        ;;
+
+    *)
+        echo "Usage: $NAME {start|stop|restart|force-reload}" >&2
+        exit 3
+        ;;
+esac
+
+exit 0
